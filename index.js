@@ -28,7 +28,7 @@ function createEmployeeRecord(array) {
   
     return employeeRecord;
   }
-
+  
   function createTimeOutEvent(employeeRecord, dateStamp) {
     const [date, hour] = dateStamp.split(' ');
   
@@ -40,41 +40,41 @@ function createEmployeeRecord(array) {
   
     return employeeRecord;
   }
-
-  function hoursWorkedOnDate(employeeRecord, date){
+  
+  function hoursWorkedOnDate(employeeRecord, date) {
     const timeInEvent = employeeRecord.timeInEvents.find(event => event.date === date);
-    const timeOutEvent = employeeRecord.timeInEvents.find(event => event.date === date);
-
+    const timeOutEvent = employeeRecord.timeOutEvents.find(event => event.date === date);
+  
     const hoursWorked = (timeOutEvent.hour - timeInEvent.hour) / 100;
-
+  
     return hoursWorked;
   }
-
+  
   function wagesEarnedOnDate(employeeRecord, date) {
     const hoursWorked = hoursWorkedOnDate(employeeRecord, date);
     const payRate = employeeRecord.payPerHour;
-
+  
     const wagesEarned = hoursWorked * payRate;
-
+  
     return wagesEarned;
   }
-
-  function allWagesFor(employeeRecord){
-    const datesWorked = employeeRecord.timeInEvent.map(event => event.date);
-
+  
+  function allWagesFor(employeeRecord) {
+    const datesWorked = employeeRecord.timeInEvents.map(event => event.date);
+  
     const wages = datesWorked.reduce((totalWages, date) => {
-        const wagesEarned = wagesEarnedOnDate(employeeRecord, date);
-        return totalWages + wagesEarned;
+      const wagesEarned = wagesEarnedOnDate(employeeRecord, date);
+      return totalWages + wagesEarned;
     }, 0);
-
+  
     return wages;
   }
   
-
-  function calculatePayroll(employees){
+  function calculatePayroll(employees) {
     let totalPay = 0;
     employees.forEach(employee => {
-        totalPay += allWagesFor(employee);
+      totalPay += allWagesFor(employee);
     });
     return totalPay;
   }
+  
